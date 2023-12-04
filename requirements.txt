@@ -2,5 +2,10 @@ asgiref==3.7.2
 backports.zoneinfo==0.2.1
 Django==4.2.8
 sqlparse==0.4.4
+<<<<<<< HEAD
 typing-extensions==4.8.0
 tzdata==2023.3
+=======
+typing_extensions==4.8.0
+
+>>>>>>> 3f46a1c8a2bf1ba513caba02f8b9b545b7173269
