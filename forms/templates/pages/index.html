@@ -14,8 +14,7 @@
             <div class="d-flex">
               <h5><a class="btn btn-success me-2" href="">Home</a></h5>
             </div>
-    
-            <form class="d-flex" role="search" action="">
+            <form class="d-flex" role="search" action="{% url 'busca-enquete' %}">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
@@ -25,5 +24,16 @@
             </div>
         </div>
     </nav>
+    {% if enquetes %}
+    <main>
+        {% for enquete in enquetes %}
+            <div>
+                <h2>Enquete: {{ enquete.pergunta }}</h2>
+            </div>
+            {% endfor %}
+    </main>
+    {% else %}
+        <p>Desculpe! Nenhuma enquete encontrada.</p>
+    {% endif %}
 </body>
 </html>
