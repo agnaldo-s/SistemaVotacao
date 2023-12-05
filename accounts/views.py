@@ -25,8 +25,7 @@ def user_login(request):
         
     return render(request, "pages/login.html")
 
-
-from django.contrib.auth.models import User
+    return render(request, "pages/login.html")
 
 def register(request):
     if request.method == "POST":
