@@ -23,8 +23,7 @@ def user_login(request):
             messages.error(request, "Usuário ou senha incorretos.")
             return redirect("login")
 
-
-from django.contrib.auth.models import User
+    return render(request, "pages/login.html")
 
 def register(request):
     if request.method == "POST":
