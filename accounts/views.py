@@ -22,6 +22,8 @@ def user_login(request):
         else:
             messages.error(request, "Usuário ou senha incorretos.")
             return redirect("login")
+        
+    return render(request, "pages/login.html")
 
     return render(request, "pages/login.html")
 
