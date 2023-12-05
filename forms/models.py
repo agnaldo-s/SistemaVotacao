@@ -10,6 +10,7 @@ class Enquete(models.Model):
     opcao5 = models.CharField(max_length=255)
     opcao6 = models.CharField(max_length=255)
     criador = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
+    finalizado = models.BooleanField(default=True)
     
 class Voto(models.Model):
     enquete = models.ForeignKey(Enquete, blank=False, on_delete=models.CASCADE)

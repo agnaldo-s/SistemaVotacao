@@ -56,5 +56,6 @@ def register(request):
 
 
 def logout(request):
+    redirect_to = request.META.get('HTTP_REFERER', '/')
     auth.logout(request)
-    return redirect("login")
+    return redirect(redirect_to)
