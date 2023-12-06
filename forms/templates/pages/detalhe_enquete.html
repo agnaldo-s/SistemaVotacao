@@ -58,7 +58,7 @@
             </tbody>
         </table>
 
-        {% if request.user.is_authenticated %}
+        {% if enquete.criador == request.user %}
          <a class="btn btn-danger mx-3 mb-2" href="{% url 'finalizar-enquete' enquete.id %}" role="button">Finalizar Enquete</a>
         {% endif %}
     <div>
