@@ -17,5 +17,6 @@ class Voto(models.Model):
     resposta = models.CharField(max_length=10)
     votante = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
 
-#enquete.objects.filter(enquete_id=id, opcao1=True).count()
+#enquete.objects.filter(enquete_id=id, opcao1=True).count() votos opção específica
+#enquete.objects.filter(enquete_id=id).count() total votos
     

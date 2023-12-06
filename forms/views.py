@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    return render(request, "pages/index.html")
+    enquetes = Enquete.objects.all()
+    return render(request, "pages/index.html", {'enquetes':enquetes})
 
 def add_enquete(request):
 
@@ -34,3 +35,12 @@ def add_enquete(request):
 
     else:
         return render(request, "pages/adicionar_enquete.html")
+    
+def detalhe(request, id):
+    enquete = Enquete.objects.get(id=id)
+    return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
+
+def finalizar(request, id):
+    enquete = Enquete.objects.get(id=id)
+    enquete.delete()
+    return redirect ('home')
