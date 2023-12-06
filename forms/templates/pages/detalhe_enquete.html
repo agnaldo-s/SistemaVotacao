@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{ enquete.pergunta }}</td>
                     <td>
-                        <form method="post" action="{% url 'voto' enquete.id %}">
+                        <form method="post" action="{% url 'opcoes' enquete.id %}">
                             {% csrf_token %}
                             {{ enquete.opcao1 }}
                             <input type="radio" id="opcao1" name="resposta" value="{{ enquete.opcao1 }}">
@@ -77,10 +77,11 @@
             </tbody>
         </table>
         {% if request.user.is_authenticated %}
-            <a class="btn btn-success mx-3 mb-2" href="" role="button">Votar</a>
+            <button class="btn btn-success mx-3 mb-2" type="submit" role="button">Votar</button>
             <a class="btn btn-primary mx-3 mb-2" href="{% url 'resultado-enquete' enquete.id %}" role="button">Resultado da Enquete</a>
         {% endif %}
         </form>
+        
         {% if enquete.criador == request.user %}
          <a class="btn btn-danger mx-3 mb-2" href="{% url 'finalizar-enquete' enquete.id %}" role="button">Finalizar Enquete</a>
         {% endif %}

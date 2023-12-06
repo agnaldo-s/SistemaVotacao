@@ -7,6 +7,7 @@ urlpatterns = [
     path('detalhe-enquete/<int:id>/', views.detalhe, name='detalhe-enquete'),
     path('resultado-enquete/<int:id>/', views.resultado, name='resultado-enquete'),
     path('finalizar-enquete/<int:id>/', views.finalizar, name='finalizar-enquete'),
-    path('voto/<int:id>/', views.votar, name='voto')
+    path('opcoes/<int:id>/', views.opcoes, name='opcoes')
+    
     
 ]
