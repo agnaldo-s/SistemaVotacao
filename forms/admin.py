@@ -6,8 +6,8 @@ class VotoInline(admin.TabularInline):
     extra = 1
 
 class EnqueteAdmin(admin.ModelAdmin):
-    list_display = ["id", "pergunta", "get_criador_da_enquete"]
-    search_fields = ["pergunta", "criador_da_enquete__username"]
+    list_display = ["id", "pergunta"]
+    search_fields = ["pergunta"]
     inlines = [VotoInline]
 
     def get_criador_da_enquete(self, obj):

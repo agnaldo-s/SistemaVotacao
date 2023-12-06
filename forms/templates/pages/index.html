@@ -29,5 +29,15 @@
             </div>
         </div>
     </nav>
+
+    <div class="container mt-5">
+        {% if request.user.is_authenticated %}
+         <a class="btn btn-primary mx-3 mb-2" href="{% url 'add-enquete' %}" role="button">Adicionar Enquete</a>
+        {% endif %} 
+    </div>
+
+    {% if erro %} 
+    <h3 align="center">{{ erro }}</h3>
+    {% endif %}
 </body>
 </html>
