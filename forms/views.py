@@ -8,6 +8,10 @@ def index(request):
     enquetes = Enquete.objects.all()
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
+def minhas_enquetes(request):
+    enquetes = Enquete.objects.filter(Enquete.criador == request.user)
+    return render(request, "pages/index.html", {'enquetes':enquetes})
+
 def add_enquete(request):
     if request.method == 'POST':
         pergunta = request.POST.get('pergunta')
@@ -67,14 +71,32 @@ def buscar_enquete(request):
 
 
 @login_required
-def votar(request, id):
+def opcoes(request, id):
     enquete = get_object_or_404(Enquete, id=id)
 
     if request.method == 'POST':
         resposta_selecionada = request.POST.get('resposta')
+
+        enquete = Enquete.objects.get(id=id)
+
+        if enquete.opcao1 == resposta_selecionada:
+            enquete.opcao1_resultado += 1
+        elif enquete.opcao2 == resposta_selecionada:
+            enquete.opcao2_resultado += 1
+        elif enquete.opcao3 == resposta_selecionada:
+            enquete.opcao3_resultado += 1
+        elif enquete.opcao4 == resposta_selecionada:
+            enquete.opcao4_resultado += 1
+        elif enquete.opcao5 == resposta_selecionada:
+            enquete.opcao5_resultado += 1
+        elif enquete.opcao6 == resposta_selecionada:
+            enquete.opcao6_resultado += 1
+        
+        enquete.save()
+
         if resposta_selecionada:
             Voto.objects.create(enquete=enquete, resposta=resposta_selecionada, votante=request.user)
-            return redirect('detalhe_enquete', id=enquete.id)
+            return redirect('home')
 
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 

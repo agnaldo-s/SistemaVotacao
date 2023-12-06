@@ -9,7 +9,7 @@
     />
     <title>Detalhe da Enquete</title>
   </head>
-
+ 
   <body style="background-color: #ddd">
     <nav class="navbar navbar-expand-lg bg-dark">
       <div class="container-fluid">
@@ -18,7 +18,7 @@
             <a class="btn btn-success me-2" href="{% url 'home' %}">Home</a>
           </h5>
         </div>
-
+ 
         <form class="d-flex" role="search" action="{% url 'buscar-enquete' %}">
           <input
             class="form-control me-2"
@@ -29,7 +29,7 @@
           />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-
+ 
         <div class="d-flex">
           {% if request.user.is_authenticated %}
           <a class="btn btn-danger me-2" href="{% url 'logout' %}">Logout</a>
@@ -39,9 +39,9 @@
         </div>
       </div>
     </nav>
-
+ 
     <div class="container m-7 mt-5">
-      <form method="post" action="{% url 'votar-enquete' enquete.id %}">
+      <form method="post" action="{% url 'opcoes' enquete.id %}">
         {% csrf_token %}
         <table class="table">
           <h3>{{ enquete.pergunta }}</h3>
