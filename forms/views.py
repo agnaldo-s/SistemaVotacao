@@ -1,14 +1,18 @@
 from .models import Enquete, Voto, User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 def index(request):
     enquetes = Enquete.objects.all()
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
-def add_enquete(request):
+def minhas_enquetes(request):
+    enquetes = Enquete.objects.filter(Enquete.criador == request.user)
+    return render(request, "pages/index.html", {'enquetes':enquetes})
 
+def add_enquete(request):
     if request.method == 'POST':
         pergunta = request.POST.get('pergunta')
         opcao1 = request.POST.get('opcao1')
@@ -18,8 +22,19 @@ def add_enquete(request):
         opcao5 = request.POST.get('opcao5')
         opcao6 = request.POST.get('opcao6')
         criador = request.user
+
+        if (
+            not pergunta
+            or not opcao1
+            or not opcao2
+            or not opcao3
+            or not opcao4
+            or not opcao5
+            or not opcao6
+        ):
+            messages.error(request, "Por favor, preencha todos os campos.")
+            return redirect("add-enquete")
         
-  
         Enquete.objects.create(
             pergunta = pergunta,
             opcao1 = opcao1,
@@ -45,6 +60,17 @@ def finalizar(request, id):
     enquete.delete()
     return redirect ('home')
 
+def buscar_enquete(request):
+    q = request.GET.get("q")
+    enquetes = Enquete.objects.all()
+    if q:
+        enquetes = enquetes.filter(pergunta__icontains=q)
+    for enquete in enquetes:
+        enquete.status = 'Aberta' if enquete.finalizado else 'Fechada'
+    return render(request, "pages/index.html", {"enquetes": enquetes})
+
+
+@login_required
 def opcoes(request, id):
     enquete = get_object_or_404(Enquete, id=id)
 
