@@ -1,10 +1,11 @@
 from .models import Enquete, Voto, User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    return render(request, "pages/index.html")
+    enquetes = Enquete.objects.all()
+    return render(request, "pages/index.html", {'enquetes':enquetes})
 
 
 def busca_enquete(request):
@@ -46,3 +47,30 @@ def add_enquete(request):
         return render(request, "pages/adicionar_enquete.html")
     
     
+
+    
+def detalhe(request, id):
+    enquete = Enquete.objects.get(id=id)
+    return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
+
+def finalizar(request, id):
+    enquete = Enquete.objects.get(id=id)
+    enquete.delete()
+    return redirect ('home')
+
+def votar(request, id):
+    enquete = get_object_or_404(Enquete, id=id)
+
+    if request.method == 'POST':
+        resposta_selecionada = request.POST.get('resposta')
+        if resposta_selecionada:
+            Voto.objects.create(enquete=enquete, resposta=resposta_selecionada, votante=request.user)
+            return redirect('detalhe_enquete', id=enquete.id)
+
+    return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
+
+def resultado(request, id):
+    enquete = Enquete.objects.get(id=id)
+    return render(request, "pages/resultado_enquete.html")
+
+
