@@ -45,22 +45,46 @@
             </thead>
             <tbody>
                 <tr>
-                <td>{{ enquete.pergunta }}</td>
-                <td>{{ enquete.opcao1 }}</td>
-                <td>{{ enquete.opcao2 }}</td>
-                <td>{{ enquete.opcao3 }}</td>
-                <td>{{ enquete.opcao4 }}</td>
-                <td>{{ enquete.opcao5 }}</td>
-                <td>{{ enquete.opcao6 }}</td>
-                <td>{{ enquete.criador }}</td>
+                    <td>{{ enquete.pergunta }}</td>
+                    <td>
+                        <form method="post" action="{% url 'voto' enquete.id %}">
+                            {% csrf_token %}
+                            {{ enquete.opcao1 }}
+                            <input type="radio" id="opcao1" name="resposta" value="{{ enquete.opcao1 }}">
+                        </td>
+                    <td>
+                        {{ enquete.opcao2 }}
+                            <input type="radio" id="opcao2" name="resposta" value="{{ enquete.opcao2 }}">
+                        </td>
+                    <td>
+                        {{ enquete.opcao3 }}
+                            <input type="radio" id="opcao3" name="resposta" value="{{ enquete.opcao3 }}">
+                        </td>
+                    <td>
+                        {{ enquete.opcao4 }}
+                            <input type="radio" id="opcao4" name="resposta" value="{{ enquete.opcao4 }}">
+                        </td>
+                    <td>
+                        {{ enquete.opcao5 }}
+                            <input type="radio" id="opcao5" name="resposta" value="{{ enquete.opcao5 }}">
+                        </td>
+                    <td>
+                        {{ enquete.opcao6 }}
+                            <input type="radio" id="opcao6" name="resposta" value="{{ enquete.opcao6 }}">
+                        </td>
+                    <td>{{ enquete.criador }}</td>
                 </tr>
-                
             </tbody>
         </table>
-
+        {% if request.user.is_authenticated %}
+            <a class="btn btn-success mx-3 mb-2" href="" role="button">Votar</a>
+            <a class="btn btn-primary mx-3 mb-2" href="{% url 'resultado-enquete' enquete.id %}" role="button">Resultado da Enquete</a>
+        {% endif %}
+        </form>
         {% if enquete.criador == request.user %}
          <a class="btn btn-danger mx-3 mb-2" href="{% url 'finalizar-enquete' enquete.id %}" role="button">Finalizar Enquete</a>
         {% endif %}
-    <div>
+    </div>
+    
 </body>
 </html>
