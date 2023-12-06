@@ -7,6 +7,16 @@ def index(request):
     enquetes = Enquete.objects.all()
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
+
+def busca_enquete(request):
+    q = request.GET.get("q")
+    enquetes = Enquete.objects.filter(pergunta__icontains=q)
+    if len(enquetes) > 0:
+        return render(request, "pages/index.html", {"enquetes": enquetes})
+    else:
+        return render(request, "pages/index.html", {"erro": "Não foi encontrado nada"})
+
+
 def add_enquete(request):
 
     if request.method == 'POST':
@@ -35,6 +45,9 @@ def add_enquete(request):
 
     else:
         return render(request, "pages/adicionar_enquete.html")
+    
+    
+
     
 def detalhe(request, id):
     enquete = Enquete.objects.get(id=id)

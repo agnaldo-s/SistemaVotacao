@@ -29,7 +29,7 @@
         </div>
     </nav>
 
-    <form method="POST" enctype="multipart/form-data" class="container mt-5"> {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data" class="container mt-5" action="{% url 'add-enquete' %}"> {% csrf_token %}
         <input class= "form-control my-1 mb-3" type="text" name="pergunta" placeholder="Pergunta">
         <input class= "form-control my-1 mb-3" type="text" name="opcao1" placeholder="Opção 1">
         <input class= "form-control my-1 mb-3" type="text" name="opcao2" placeholder="Opção 2">
