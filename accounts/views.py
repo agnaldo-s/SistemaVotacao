@@ -34,6 +34,10 @@ def register(request):
         if not all([user, email, password]):
             messages.error(request, "Favor, preencha todos os campos.")
             return redirect("register")
+        
+        if not user or any(char.isspace() for char in user):
+            messages.error(request, "Nome de usuário inválido.")
+            return redirect("register")
 
         try:
             if User.objects.filter(email=email).exists():

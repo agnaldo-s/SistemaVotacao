@@ -31,6 +31,10 @@ def add_enquete(request):
             messages.error(request, "Por favor, preencha todos os campos.")
             return redirect("add-enquete")
         
+        if not pergunta.split():
+            messages.error(request, "A pergunta deve começar com letra.")
+            return redirect("add-enquete")
+        
         Enquete.objects.create(
             pergunta = pergunta,
             opcao1 = opcao1,
@@ -49,6 +53,8 @@ def add_enquete(request):
     
 def detalhe(request, id):
     enquete = Enquete.objects.get(id=id)
+    if enquete.criador == request.user:
+        
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
 def finalizar(request, id):
