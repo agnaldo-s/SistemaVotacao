@@ -19,8 +19,19 @@ def add_enquete(request):
         opcao5 = request.POST.get('opcao5')
         opcao6 = request.POST.get('opcao6')
         criador = request.user
+
+        if (
+            not pergunta
+            or not opcao1
+            or not opcao2
+            or not opcao3
+            or not opcao4
+            or not opcao5
+            or not opcao6
+        ):
+            messages.error(request, "Por favor, preencha todos os campos.")
+            return redirect("add-enquete")
         
-  
         Enquete.objects.create(
             pergunta = pergunta,
             opcao1 = opcao1,

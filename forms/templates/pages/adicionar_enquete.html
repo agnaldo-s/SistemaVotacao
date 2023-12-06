@@ -84,7 +84,17 @@
         name="opcao6"
         placeholder="Opção 6"
       />
+      {% if messages %} {% for message in messages %}
+      <h3 align="center">{{ message }}</h3>
+      {% endfor %} {% endif %}
       <button type="submit" class="btn btn-primary mt-2">Salvar</button>
+      <button
+        type="button"
+        class="btn btn-primary mt-2"
+        onclick="history.back(), preventDefault()"
+      >
+        <
+      </button>
     </form>
   </body>
 </html>
