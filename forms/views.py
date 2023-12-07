@@ -2,6 +2,7 @@ from .models import Enquete, Voto, User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .app import send_email
 
 
 def index(request):
@@ -9,7 +10,7 @@ def index(request):
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
 def minhas_enquetes(request):
-    enquetes = Enquete.objects.filter(Enquete.criador == request.user)
+    enquetes = Enquete.objects.filter(criador = request.user)
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
 def add_enquete(request):
@@ -56,7 +57,21 @@ def detalhe(request, id):
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
 def finalizar(request, id):
-    enquete = Enquete.objects.get(id=id)
+    enquete = Enquete.objects.get(id=id) 
+    resultados = {
+            enquete.opcao1: enquete.opcao1_resultado,
+            enquete.opcao2: enquete.opcao2_resultado,
+            enquete.opcao3: enquete.opcao3_resultado,
+            enquete.opcao4: enquete.opcao4_resultado,
+            enquete.opcao5: enquete.opcao5_resultado,
+            enquete.opcao6: enquete.opcao6_resultado
+        }
+
+    vencedor = max(resultados, key=resultados.get)
+    votos_vencedor = resultados[vencedor] 
+    
+    for voto in enquete.voto_set.all():
+        send_email(f"A enquete: {enquete.pergunta} foi finalizada, o vencedor foi {vencedor}, com um total de {votos_vencedor} votos.", voto.votante.email)
     enquete.delete()
     return redirect ('home')
 
@@ -75,7 +90,7 @@ def opcoes(request, id):
     enquete = get_object_or_404(Enquete, id=id)
 
     if request.method == 'POST':
-        resposta_selecionada = request.POST.get('resposta')
+        resposta_selecionada = request.POST.get('opcao')
 
         enquete = Enquete.objects.get(id=id)
 
@@ -100,8 +115,6 @@ def opcoes(request, id):
 
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
-def resultado(request, id):
-    enquete = Enquete.objects.get(id=id)
-    return render(request, "pages/resultado_enquete.html")
+
 
 

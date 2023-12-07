@@ -43,6 +43,7 @@
     <div class="container m-7 mt-5">
       <form method="post" action="{% url 'opcoes' enquete.id %}">
         {% csrf_token %}
+        {% if enquete.criador == request.user %}
         <table class="table">
           <h3>{{ enquete.pergunta }}</h3>
           <p>Criado por: {{ enquete.criador }}</p>
@@ -60,67 +61,106 @@
             <tr>
               <td>
                 <label>
-                  <input
-                    type="radio"
-                    name="opcao"
-                    value="{{ enquete.opcao1 }}"
-                  />
                   {{ enquete.opcao1 }}
+                  <br>
+                  Votos: {{ enquete.opcao1_resultado }}
                 </label>
               </td>
               <td>
                 <label>
-                  <input
-                    type="radio"
-                    name="opcao"
-                    value="{{ enquete.opcao2 }}"
-                  />
                   {{ enquete.opcao2 }}
+                  <br>
+                  Votos: {{ enquete.opcao2_resultado }}
                 </label>
               </td>
               <td>
                 <label>
-                  <input
-                    type="radio"
-                    name="opcao"
-                    value="{{ enquete.opcao3 }}"
-                  />
                   {{ enquete.opcao3 }}
+                  <br>
+                  Votos: {{ enquete.opcao3_resultado }}
                 </label>
               </td>
               <td>
                 <label>
-                  <input
-                    type="radio"
-                    name="opcao"
-                    value="{{ enquete.opcao4 }}"
-                  />
                   {{ enquete.opcao4 }}
+                  <br>
+                  Votos: {{ enquete.opcao4_resultado }}
                 </label>
               </td>
               <td>
                 <label>
-                  <input
-                    type="radio"
-                    name="opcao"
-                    value="{{ enquete.opcao5 }}"
-                  />
                   {{ enquete.opcao5 }}
+                  <br>
+                  Votos: {{ enquete.opcao5_resultado }}
                 </label>
               </td>
               <td>
                 <label>
-                  <input
-                    type="radio"
-                    name="opcao"
-                    value="{{ enquete.opcao6 }}"
-                  />
                   {{ enquete.opcao6 }}
+                  <br>
+                  Votos: {{ enquete.opcao6_resultado }}
                 </label>
               </td>
             </tr>
           </tbody>
         </table>
+
+        {% else %}
+          <table class="table">
+            <h3>{{ enquete.pergunta }}</h3>
+            <p>Criado por: {{ enquete.criador }}</p>
+            <thead>
+              <tr>
+                <th scope="col">Opção 1</th>
+                <th scope="col">Opção 2</th>
+                <th scope="col">Opção 3</th>
+                <th scope="col">Opção 4</th>
+                <th scope="col">Opção 5</th>
+                <th scope="col">Opção 6</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <label>
+                    <input type="radio" name="opcao" value="{{ enquete.opcao1 }}"/>
+                    {{ enquete.opcao1 }}
+                  </label>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" name="opcao" value="{{ enquete.opcao2 }}"/>
+                    {{ enquete.opcao2 }}
+                  </label>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" name="opcao" value="{{ enquete.opcao3 }}"/>
+                    {{ enquete.opcao3 }}
+                  </label>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" name="opcao" value="{{ enquete.opcao4 }}"/>
+                    {{ enquete.opcao4 }}
+                  </label>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" name="opcao" value="{{ enquete.opcao5 }}"/>
+                    {{ enquete.opcao5 }}
+                  </label>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" name="opcao" value="{{ enquete.opcao5 }}"/>
+                    {{ enquete.opcao6 }}
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        {% endif %}
         {% if enquete.criador == request.user %}
         <a
           class="btn btn-danger"
