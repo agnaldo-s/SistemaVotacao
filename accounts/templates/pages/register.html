@@ -47,6 +47,7 @@
                 Registrar
               </button>
             </div>
+            <a href="{% url 'login' %}">Já possui conta?</a>
             {% if messages %} {% for message in messages %}
             <h3 align="center">{{ message }}</h3>
             {% endfor %} {% endif %}

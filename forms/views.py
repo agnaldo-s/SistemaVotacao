@@ -56,11 +56,12 @@ def add_enquete(request):
         return render(request, "pages/adicionar_enquete.html")
     
 def detalhe(request, id):
-    enquete = Enquete.objects.get(id=id) 
+    enquete = Enquete.objects.get(id=id)
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
 def finalizar(request, id):
     enquete = Enquete.objects.get(id=id)
+    enviar_email_votos(enquete)
     enquete.delete()
     return redirect ('home')
 
@@ -107,5 +108,38 @@ def opcoes(request, id):
 def resultado(request, id):
     enquete = Enquete.objects.get(id=id)
     return render(request, "pages/resultado_enquete.html")
+
+def enviar_mail(email, enquete):
+
+    msg = MIMEMultipart()
+    msg["subject"] = "Enquete Finalizada"
+    msg["From"] = credentials.EMAIL
+    msg["To"] = email
+    corpo_do_email = f"""
+    <html>
+        <head></head>
+        <body>
+            <p>Olá, tudo bem?</p>
+            <br>
+            <p>Passando pra avisar que a enquete "<strong>{enquete.pergunta}</strong>" foi encerrada.</p>
+            <p>Acesse a página e confira o final da votação.</p>
+            <p>Obrigado!</p>
+        </body>
+    </html>
+    """
+    msg.attach(MIMEText(corpo_do_email, "html"))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(credentials.EMAIL, credentials.PASSWORD)
+        smtp.send_message(msg)
+
+def enviar_email_votos(enquete):
+    emails_votantes = []
+
+    for voto in Voto.objects.filter(enquete=enquete):
+        emails_votantes.append(voto.votante.email)
+
+    for email in emails_votantes:
+        enviar_email(email, enquete)
 
 
