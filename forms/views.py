@@ -9,7 +9,7 @@ def index(request):
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
 def minhas_enquetes(request):
-    enquetes = Enquete.objects.filter(Enquete.criador == request.user)
+    enquetes = Enquete.objects.filter(criador = request.user)
     return render(request, "pages/index.html", {'enquetes':enquetes})
 
 def add_enquete(request):
