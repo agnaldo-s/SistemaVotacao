@@ -56,9 +56,7 @@ def add_enquete(request):
         return render(request, "pages/adicionar_enquete.html")
     
 def detalhe(request, id):
-    enquete = Enquete.objects.get(id=id)
-    if enquete.criador == request.user:
-        
+    enquete = Enquete.objects.get(id=id) 
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
 def finalizar(request, id):
