@@ -58,8 +58,20 @@ def detalhe(request, id):
 
 def finalizar(request, id):
     enquete = Enquete.objects.get(id=id) 
+    resultados = {
+            enquete.opcao1: enquete.opcao1_resultado,
+            enquete.opcao2: enquete.opcao2_resultado,
+            enquete.opcao3: enquete.opcao3_resultado,
+            enquete.opcao4: enquete.opcao4_resultado,
+            enquete.opcao5: enquete.opcao5_resultado,
+            enquete.opcao6: enquete.opcao6_resultado
+        }
+
+    vencedor = max(resultados, key=resultados.get)
+    votos_vencedor = resultados[vencedor] 
+    
     for voto in enquete.voto_set.all():
-        send_email(f"A enquete: {enquete.pergunta} foi finalizada com os seguintes resultados: {enquete.opcao1} = {enquete.opcao1_resultado}", voto.votante.email)
+        send_email(f"A enquete: {enquete.pergunta} foi finalizada, o vencedor foi {vencedor}, com um total de {votos_vencedor} votos.", voto.votante.email)
     enquete.delete()
     return redirect ('home')
 
