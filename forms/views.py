@@ -2,6 +2,7 @@ from .models import Enquete, Voto, User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .app import send_email
 
 
 def index(request):
@@ -56,7 +57,9 @@ def detalhe(request, id):
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
 def finalizar(request, id):
-    enquete = Enquete.objects.get(id=id)
+    enquete = Enquete.objects.get(id=id) 
+    for voto in enquete.voto_set.all():
+        send_email(f"A enquete: {enquete.pergunta} foi finalizada com os seguintes resultados: {enquete.opcao1} = {enquete.opcao1_resultado}", voto.votante.email)
     enquete.delete()
     return redirect ('home')
 
@@ -75,7 +78,7 @@ def opcoes(request, id):
     enquete = get_object_or_404(Enquete, id=id)
 
     if request.method == 'POST':
-        resposta_selecionada = request.POST.get('resposta')
+        resposta_selecionada = request.POST.get('opcao')
 
         enquete = Enquete.objects.get(id=id)
 
@@ -100,8 +103,6 @@ def opcoes(request, id):
 
     return render(request, "pages/detalhe_enquete.html", {"enquete": enquete})
 
-def resultado(request, id):
-    enquete = Enquete.objects.get(id=id)
-    return render(request, "pages/resultado_enquete.html")
+
 
 
