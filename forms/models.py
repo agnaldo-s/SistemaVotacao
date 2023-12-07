@@ -9,6 +9,14 @@ class Enquete(models.Model):
     opcao4 = models.CharField(max_length=255)
     opcao5 = models.CharField(max_length=255)
     opcao6 = models.CharField(max_length=255)
+
+    opcao1_resultado = models.IntegerField(default=0)
+    opcao2_resultado = models.IntegerField(default=0)
+    opcao3_resultado = models.IntegerField(default=0)
+    opcao4_resultado = models.IntegerField(default=0)
+    opcao5_resultado = models.IntegerField(default=0)
+    opcao6_resultado = models.IntegerField(default=0)
+
     criador = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
     finalizado = models.BooleanField(default=True)
     
